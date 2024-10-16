@@ -13,7 +13,7 @@ class AnimatedImageWidget extends StatelessWidget {
     required this.assetPath,
     required this.top,
     required this.left,
-    this.size = 200.0,
+    this.size = 150.0,
   }) : super(key: key);
 
   @override

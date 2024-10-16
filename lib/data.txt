@@ -1,5 +1,0 @@
-https://api.openweathermap.org/data/2.5/weather?lat=17.361719&lon=78.475166&appid=1d788e2a5b2d5022aa8356e9e6053517
-http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=feb55ec6a42510e3f48f0d4604cc6c77
-
-API Key 1: 1d788e2a5b2d5022aa8356e9e6053517
-API Key 2: feb55ec6a42510e3f48f0d4604cc6c77

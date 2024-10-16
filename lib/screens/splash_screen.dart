@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'package:weather_app/animated_widget.dart';
-import 'package:weather_app/popup_button.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:weather_app/components/animated_widget.dart';
+import 'package:weather_app/screens/search_screen.dart';
+import 'package:weather_app/themes/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _thunderController;
   late AnimationController _sunController;
 
-  bool showButton = false; // Flag to manage button visibility
+  bool showText = false; // Flag to manage text visibility
   bool showImages = true; // New flag to manage images visibility
 
   @override
@@ -53,11 +54,16 @@ class _SplashScreenState extends State<SplashScreen>
       });
     });
 
-    // Timer to show the button after  seconds
+    // Timer to show the text after  seconds
     Timer(Duration(seconds: 6), () {
       setState(() {
-        showButton = true;
+        showText = true;
       });
+    });
+    // Navigate to the second splash screen after 2 seconds
+    Future.delayed(Duration(seconds: 8), () {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => SearchScreen()));
     });
   }
 
@@ -90,7 +96,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[200],
+      backgroundColor: AppColors.aliceBlueColor,
       body: Stack(
         children: [
           // Conditionally display images based on showImages flag
@@ -128,15 +134,23 @@ class _SplashScreenState extends State<SplashScreen>
             ),
           ],
 
-          // Conditionally show the button after 10 seconds
-          if (showButton)
+          // Conditionally show the Text after 10 seconds
+          if (showText)
             Center(
-              child: PopUpButton(
-                buttonText: 'Weather Page',
-                color: Colors.deepPurple,
-                onTap: () {
-                  print("Button clicked!");
-                },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // staggeredDotsWave
+                  Text(
+                    "Getting weather updates..",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  LoadingAnimationWidget.twistingDots(
+                    leftDotColor: const Color(0xFF1A1A3F),
+                    rightDotColor: const Color(0xFFEA3799),
+                    size: 100,
+                  ),
+                ],
               ),
             ),
         ],
