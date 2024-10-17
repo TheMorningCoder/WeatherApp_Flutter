@@ -9,3 +9,6 @@ https://api.openweathermap.org/geo/1.0/direct?q=lucknow&limit=1&appid=feb55ec6a4
 
 Make .env file
 Change App Icon
+flutter pub run flutter_launcher_icons:main
+flutter build apk --release
+
