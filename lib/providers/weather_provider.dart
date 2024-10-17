@@ -18,12 +18,9 @@ class WeatherProvider extends ChangeNotifier {
       _isLoading = true;
       _errorMessage = null;
       notifyListeners();
-      print("Heeeelllllooooo");
 
       // Get coordinates
       final coords = await _weatherApiService.fetchCoordinates(city);
-      print("Coords==========");
-      print(await _weatherApiService.fetchCoordinates(city));
 
       // Get weather data using coordinates
       final weatherData =
@@ -35,5 +32,12 @@ class WeatherProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  void clearWeatherData() {
+    _weather = null;
+    _errorMessage = null;
+    _isLoading = false;
+    notifyListeners();
   }
 }

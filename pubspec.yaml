@@ -16,6 +16,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   http: ^1.2.2
   provider: ^6.1.2
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
@@ -26,8 +27,15 @@ flutter:
 
   uses-material-design: true
   assets:
-  - assets/cloud.jpg
-  - assets/rain.png
-  - assets/thunder.jpg
-  - assets/sun.png
+  - assets/images/cloud.jpg
+  - assets/images/rain.png
+  - assets/images/thunder.jpg
+  - assets/images/sun.png
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
+        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
+
 

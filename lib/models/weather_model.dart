@@ -1,14 +1,20 @@
 class WeatherModel {
-  final double temperature;
-  final int humidity;
-  final double windSpeed;
-  final String weatherIcon;
+  final temperature;
+  final humidity;
+  final windSpeed;
+  final weatherIcon;
+  final description;
+  final minTemperature;
+  final maxTemperature;
 
   WeatherModel({
     required this.temperature,
     required this.humidity,
     required this.windSpeed,
     required this.weatherIcon,
+    required this.description,
+    required this.minTemperature,
+    required this.maxTemperature,
   });
 
   // Factory constructor to create a WeatherModel from JSON
@@ -18,6 +24,9 @@ class WeatherModel {
       humidity: json['main']['humidity'],
       windSpeed: json['wind']['speed'],
       weatherIcon: json['weather'][0]['icon'],
+      description: json['weather'][0]['main'],
+      minTemperature: json['main']['temp_min'],
+      maxTemperature: json['main']['temp_max'],
     );
   }
 

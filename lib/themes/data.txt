@@ -6,3 +6,5 @@ API Key 1: 1d788e2a5b2d5022aa8356e9e6053517
 API Key 2: feb55ec6a42510e3f48f0d4604cc6c77
 
 https://api.openweathermap.org/geo/1.0/direct?q=lucknow&limit=1&appid=feb55ec6a42510e3f48f0d4604cc6c77
+
+Make .env file

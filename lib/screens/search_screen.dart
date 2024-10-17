@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/providers/weather_provider.dart';
+import 'package:weather_app/themes/colors.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -13,12 +14,32 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    // Resetting weather data when the screen is opened
+    final searchWeatherProvider =
+        Provider.of<WeatherProvider>(context, listen: false);
+    searchWeatherProvider.clearWeatherData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final weatherProvider = Provider.of<WeatherProvider>(context);
+    final searchWeatherProvider = Provider.of<WeatherProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Weather App"),
+        title: Text(
+          "Weather App",
+          style: TextStyle(color: AppColors.whiteColor, fontSize: 30),
+        ),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+            )),
         centerTitle: true,
       ),
       body: Padding(
@@ -35,7 +56,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               onSubmitted: (value) {
                 if (value.isNotEmpty) {
-                  weatherProvider
+                  searchWeatherProvider
                       .fetchWeatherByCity(value); // Fetch weather on submit
                 }
               },
@@ -43,25 +64,26 @@ class _SearchScreenState extends State<SearchScreen> {
             const SizedBox(height: 20),
 
             // Display loading, error or weather data
-            weatherProvider.isLoading
+            searchWeatherProvider.isLoading
                 ? const CircularProgressIndicator()
-                : weatherProvider.errorMessage != null
+                : searchWeatherProvider.errorMessage != null
                     ? Text(
-                        weatherProvider.errorMessage!,
+                        searchWeatherProvider.errorMessage!,
                         style: TextStyle(color: Colors.red),
                       )
-                    : weatherProvider.weather != null
+                    : searchWeatherProvider.weather != null
                         ? Column(
                             children: [
-                              Image.network(weatherProvider.weather!.iconUrl),
+                              Image.network(
+                                  searchWeatherProvider.weather!.iconUrl),
                               Text(
-                                'Temperature: ${weatherProvider.weather!.temperature}°C',
+                                'Temperature: ${searchWeatherProvider.weather!.temperature}°C',
                                 style: TextStyle(fontSize: 24),
                               ),
                               Text(
-                                  'Humidity: ${weatherProvider.weather!.humidity}%'),
+                                  'Humidity: ${searchWeatherProvider.weather!.humidity}%'),
                               Text(
-                                  'Wind Speed: ${weatherProvider.weather!.windSpeed} m/s'),
+                                  'Wind Speed: ${searchWeatherProvider.weather!.windSpeed} m/s'),
                             ],
                           )
                         : const Center(

@@ -9,22 +9,14 @@ class WeatherApiService {
 
   // Fetch coordinates based on city name
   Future<Map<String, dynamic>> fetchCoordinates(String city) async {
-    print(city);
-    print(
-        ("Hii I am in service class.. trying to fetch cordinates through city name.."));
+    //print(("Hii I am trying to fetch cordinates through city name.."));
 
     final Uri url = Uri.parse('$_geoBaseUrl?q=$city&limit=1&appid=$_apiKey');
-    print("url =$url");
     final response = await http.get(url);
-    print(response.body);
-    print(response.statusCode);
-    print(response);
-    print(await http.get(url));
 
     if (response.statusCode == 200) {
       final List data = jsonDecode(response.body);
       if (data.isNotEmpty) {
-        print("Status Code=200");
         return {'lat': data[0]['lat'], 'lon': data[0]['lon']};
       } else {
         throw Exception('City not found');
@@ -41,6 +33,8 @@ class WeatherApiService {
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
+      print("Inside Weather API Service Class... Status Code=200");
+      print(response.body);
       return jsonDecode(response.body);
     } else {
       throw Exception('Failed to fetch weather data');

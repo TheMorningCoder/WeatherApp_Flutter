@@ -15,4 +15,8 @@ class AppColors {
   static const Color aliceBlueColor = Color(0xFFF0F8FF);
   //Secondary Font Color
   static const Color darkGrayColor = Color(0xFFA9A9A9);
+  // Background Color for Details Tile
+  static const frostedWhiteColor = Color(0x33FFFFFF);
+  //Semi-Transparent White Color
+  static const semiTransparentWhiteColor = Color(0xB3FFFFFF);
 }
