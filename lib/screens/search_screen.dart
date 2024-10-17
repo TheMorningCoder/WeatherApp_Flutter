@@ -137,6 +137,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 SizedBox(height: 35.h),
                                 // Weather Icon
                                 Image.network(
+                                  color: AppColors.whiteColor,
                                   weatherDetails['iconUrl'],
                                   height: 100.h,
                                   width: 100.w,
@@ -151,14 +152,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                     color: AppColors.whiteColor,
                                   ),
                                 ),
-                                SizedBox(height: 10.h),
+                                SizedBox(height: 25.h),
 
                                 //Description
                                 Text(
                                   '${weatherDetails['description']}',
                                   style: TextStyle(
                                     fontSize: 18.sp,
-                                    color: AppColors.whiteColor,
+                                    color: AppColors.skyBlueColor,
                                   ),
                                 ),
                                 SizedBox(height: 10.h),
@@ -168,7 +169,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   'Humidity: ${weatherDetails['humidity']}%',
                                   style: TextStyle(
                                     fontSize: 18.sp,
-                                    color: AppColors.whiteColor,
+                                    color: AppColors.skyBlueColor,
                                   ),
                                 ),
                                 SizedBox(height: 10.h),
@@ -178,7 +179,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   'Wind Speed: ${weatherDetails['windSpeed']} m/s',
                                   style: TextStyle(
                                     fontSize: 18.sp,
-                                    color: AppColors.whiteColor,
+                                    color: AppColors.skyBlueColor,
                                   ),
                                 ),
                                 SizedBox(height: 10.h),
@@ -188,17 +189,23 @@ class _SearchScreenState extends State<SearchScreen> {
                                   'Today: ${weatherDetails['minTemperature']}°C/${weatherDetails['maxTemperature']}°C',
                                   style: TextStyle(
                                     fontSize: 18.sp,
-                                    color: AppColors.whiteColor,
+                                    color: AppColors.skyBlueColor,
                                   ),
                                 ),
                               ],
                             )
-                          : const Center(
-                              child: Text(
-                                "Search a city to get weather updates",
-                                style: TextStyle(color: AppColors.whiteColor),
-                              ),
-                            ),
+                          : Column(
+                              children: [
+                                SizedBox(height: 10.sp),
+                                Text(
+                                  "Search a city to get weather updates",
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: AppColors.skyBlueColor,
+                                  ),
+                                ),
+                              ],
+                            )
             ],
           ),
         ),

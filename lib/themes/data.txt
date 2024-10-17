@@ -8,3 +8,4 @@ API Key 2: feb55ec6a42510e3f48f0d4604cc6c77
 https://api.openweathermap.org/geo/1.0/direct?q=lucknow&limit=1&appid=feb55ec6a42510e3f48f0d4604cc6c77
 
 Make .env file
+Change App Icon

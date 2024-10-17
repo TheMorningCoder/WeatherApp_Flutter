@@ -39,7 +39,7 @@ class MyWeatherApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: SearchScreen(),
+      home: SplashScreen(),
     );
   }
 }
