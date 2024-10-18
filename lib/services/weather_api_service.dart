@@ -2,6 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class WeatherApiService {
+  WeatherApiService({http.Client? httpClient})
+      : _httpClient = httpClient ?? http.Client();
+  final http.Client _httpClient;
+
   final String _geoBaseUrl = 'http://api.openweathermap.org/geo/1.0/direct';
   final String _weatherBaseUrl =
       'https://api.openweathermap.org/data/2.5/weather';
@@ -10,10 +14,11 @@ class WeatherApiService {
   // Fetch coordinates based on city name
   Future<Map<String, dynamic>> fetchCoordinates(String city) async {
     final Uri url = Uri.parse('$_geoBaseUrl?q=$city&limit=1&appid=$_apiKey');
-    final response = await http.get(url);
+    final response = await _httpClient.get(url);
 
     if (response.statusCode == 200) {
       final List data = jsonDecode(response.body);
+
       if (data.isNotEmpty) {
         return {'lat': data[0]['lat'], 'lon': data[0]['lon']};
       } else {
@@ -28,7 +33,7 @@ class WeatherApiService {
   Future<Map<String, dynamic>> fetchWeather(double lat, double lon) async {
     final Uri url = Uri.parse(
         '$_weatherBaseUrl?lat=$lat&lon=$lon&appid=$_apiKey&units=metric');
-    final response = await http.get(url);
+    final response = await _httpClient.get(url);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
