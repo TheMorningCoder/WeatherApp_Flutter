@@ -36,7 +36,7 @@ void main() {
 
     test('fetchWeather throws an exception for invalid coordinates', () async {
       expect(() async {
-        await weatherApiService.fetchWeather(0.0, 0.0); // Invalid coordinates
+        await weatherApiService.fetchWeather(95, 200); // Invalid coordinates
       }, throwsException);
     });
   });
