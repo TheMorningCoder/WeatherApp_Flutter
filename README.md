@@ -1,16 +1,30 @@
-# weather_app
+# WEATHER APP
+* Flutter Application to tell you the Current Weather of a City.
 
-A new Flutter project.
+## Features
+* Search Weather By City Name
+* Weather of Last Searched City displays by default on Home Screen
 
-## Getting Started
+## Project Information
+* Flutter Version: 3.26.0
+* Dart Version: 3.6.0
 
-This project is a starting point for a Flutter application.
+## Application Start Steps:
 
-A few resources to get you started if this is your first Flutter project:
+1. Clone git repository: https://github.com/TheMorningCoder/WeatherApp_Flutter.git
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. Checkout To Branch: master
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3. Install dependencies: **flutter pub get**
+
+4. Create a **.env** file at root level and the content of file is shared over email
+
+5. Prepare any emulator or device for testing
+
+6. Run your application
+
+## Test:
+
+1. Make sure the .env file is already created and has the correct data
+
+2. Run **flutter test** to execute the test

@@ -29,11 +29,10 @@ class AnimatedImageWidget extends StatelessWidget {
             child: ClipOval(
               child: SizedBox(
                 width: size,
-                height:
-                    size, // Ensure the height and width are equal for a circle
+                height: size,
                 child: Image.asset(
                   assetPath,
-                  fit: BoxFit.cover, // Ensures the image fits within the circle
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

@@ -10,7 +10,11 @@ class WeatherApiService {
   final String? _weatherBaseUrl = dotenv.env['WEATHER_API_URL'];
   final String? _apiKey = dotenv.env['API_KEY'];
 
-  // Fetch coordinates based on city name
+  /**
+   * Method to fetch coordinates based on a city name
+   * @param city String
+   * @returns on success, returns latitude and longitude values of the city, on failure throws exception
+   */
   Future<Map<String, dynamic>> fetchCoordinates(String city) async {
     final Uri url = Uri.parse('$_geoBaseUrl?q=$city&limit=1&appid=$_apiKey');
     final response = await _httpClient.get(url);
@@ -28,7 +32,13 @@ class WeatherApiService {
     }
   }
 
-  // Fetch weather data based on coordinates
+/**
+   * Method to fetch weather data based on coordinates
+   * @param lat double
+  *  @param lon double
+   * @returns on success, returns weather data of the given coordinates, on failure throws exception
+   */
+
   Future<Map<String, dynamic>> fetchWeather(double lat, double lon) async {
     final Uri url = Uri.parse(
         '$_weatherBaseUrl?lat=$lat&lon=$lon&appid=$_apiKey&units=metric');
