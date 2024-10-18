@@ -1,23 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/splash_screen/splash_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weather_app/providers/weather_provider.dart';
+import 'package:weather_app/screens/splash_screen.dart';
+import 'package:weather_app/themes/colors.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(const MyWeatherApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyWeatherApp extends StatelessWidget {
+  const MyWeatherApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => WeatherProvider()),
+      ],
+      child: ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        builder: (context, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Weather App',
+            theme: ThemeData(
+              fontFamily: 'Poppins',
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: AppColors.skyBlueColor,
+              ),
+              useMaterial3: true,
+            ),
+            home: SplashScreen(),
+          );
+        },
       ),
-      home: SplashScreen(),
     );
   }
 }

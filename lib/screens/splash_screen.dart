@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'package:weather_app/animated_widget.dart';
-import 'package:weather_app/popup_button.dart';
+import 'package:weather_app/components/animated_widget.dart';
+import 'package:weather_app/screens/homescreen.dart';
+import 'package:weather_app/themes/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -16,8 +16,7 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _thunderController;
   late AnimationController _sunController;
 
-  bool showButton = false; // Flag to manage button visibility
-  bool showImages = true; // New flag to manage images visibility
+  bool showImages = true; // Flag to manage images visibility
 
   @override
   void initState() {
@@ -53,11 +52,14 @@ class _SplashScreenState extends State<SplashScreen>
       });
     });
 
-    // Timer to show the button after  seconds
-    Timer(Duration(seconds: 6), () {
-      setState(() {
-        showButton = true;
-      });
+    // Navigate to the second splash screen after 2 seconds
+    Future.delayed(Duration(seconds: 6), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+      );
     });
   }
 
@@ -90,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[200],
+      backgroundColor: AppColors.steelBlueColor,
       body: Stack(
         children: [
           // Conditionally display images based on showImages flag
@@ -98,7 +100,7 @@ class _SplashScreenState extends State<SplashScreen>
             // Cloud Animation
             AnimatedImageWidget(
               animation: _cloudController,
-              assetPath: 'assets/cloud.jpg',
+              assetPath: 'assets/images/cloud.jpg',
               top: 520,
               left: 10,
             ),
@@ -106,7 +108,7 @@ class _SplashScreenState extends State<SplashScreen>
             // Rain Animation
             AnimatedImageWidget(
               animation: _rainController,
-              assetPath: 'assets/rain.png',
+              assetPath: 'assets/images/rain.png',
               top: 390,
               left: 200,
             ),
@@ -114,7 +116,7 @@ class _SplashScreenState extends State<SplashScreen>
             // Thunder Animation
             AnimatedImageWidget(
               animation: _thunderController,
-              assetPath: 'assets/thunder.jpg',
+              assetPath: 'assets/images/thunder.jpg',
               top: 260,
               left: 10,
             ),
@@ -122,23 +124,11 @@ class _SplashScreenState extends State<SplashScreen>
             // Sun Animation
             AnimatedImageWidget(
               animation: _sunController,
-              assetPath: 'assets/sun.png',
+              assetPath: 'assets/images/sun.png',
               top: 120,
               left: 200,
             ),
           ],
-
-          // Conditionally show the button after 10 seconds
-          if (showButton)
-            Center(
-              child: PopUpButton(
-                buttonText: 'Weather Page',
-                color: Colors.deepPurple,
-                onTap: () {
-                  print("Button clicked!");
-                },
-              ),
-            ),
         ],
       ),
     );
