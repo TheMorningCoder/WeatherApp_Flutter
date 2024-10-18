@@ -5,12 +5,10 @@ class WeatherApiService {
   final String _geoBaseUrl = 'http://api.openweathermap.org/geo/1.0/direct';
   final String _weatherBaseUrl =
       'https://api.openweathermap.org/data/2.5/weather';
-  final String _apiKey = 'feb55ec6a42510e3f48f0d4604cc6c77'; //
+  final String _apiKey = '1d788e2a5b2d5022aa8356e9e6053517'; //
 
   // Fetch coordinates based on city name
   Future<Map<String, dynamic>> fetchCoordinates(String city) async {
-    //print(("Hii I am trying to fetch cordinates through city name.."));
-
     final Uri url = Uri.parse('$_geoBaseUrl?q=$city&limit=1&appid=$_apiKey');
     final response = await http.get(url);
 
@@ -31,10 +29,7 @@ class WeatherApiService {
     final Uri url = Uri.parse(
         '$_weatherBaseUrl?lat=$lat&lon=$lon&appid=$_apiKey&units=metric');
     final response = await http.get(url);
-
     if (response.statusCode == 200) {
-      print("Inside Weather API Service Class... Status Code=200");
-      print(response.body);
       return jsonDecode(response.body);
     } else {
       throw Exception('Failed to fetch weather data');

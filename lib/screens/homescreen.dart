@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather_app/components/details_tile.dart';
 import 'package:weather_app/components/staggered_loading_widget.dart';
 import 'package:weather_app/providers/weather_provider.dart';
 import 'package:weather_app/screens/search_screen.dart';
@@ -32,15 +33,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadDefaultCity() async {
-    // Fetch the weather for the default city in the initState
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final weatherProvider =
-          Provider.of<WeatherProvider>(context, listen: false);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String lastSearchedCity = prefs.getString('lastSearchedCity') ?? "Yakutsk";
 
-      // Fetch weather asynchronously
-      await weatherProvider.fetchWeatherByCity(defaultCity);
-      if (!weatherProvider.isLoading && weatherProvider.weather != null) {
-        setState(() {
+    final weatherProvider =
+        Provider.of<WeatherProvider>(context, listen: false);
+    await weatherProvider.fetchWeatherByCity(lastSearchedCity);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        defaultCity = lastSearchedCity;
+        if (!weatherProvider.isLoading && weatherProvider.weather != null) {
           temperature = weatherProvider.weather?.temperature.toString();
           description = weatherProvider.weather?.description;
           iconUrl = weatherProvider.weather!.iconUrl;
@@ -50,10 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
               weatherProvider.weather!.minTemperature.toString();
           maximumTemperature =
               weatherProvider.weather!.maxTemperature.toString();
-        });
-      } else {
-        print(weatherProvider.errorMessage);
-      }
+        }
+      });
     });
   }
 
@@ -61,32 +62,32 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final weatherProvider = Provider.of<WeatherProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.steelBlueColor,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SearchScreen(),
-                  ),
-                );
-              },
-              icon: Icon(
-                Icons.add,
-                color: AppColors.whiteColor,
-                size: 35.sp,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.steelBlueColor,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchScreen(),
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.add,
+                  color: AppColors.whiteColor,
+                  size: 35.sp,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
+          ],
+        ),
+        body: Container(
           decoration: const BoxDecoration(
             color: AppColors.steelBlueColor,
           ),
@@ -96,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(height: 60.h), // Space at the top
                     Text(
@@ -126,68 +128,47 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Image.network(
-                          "$iconUrl",
+                          iconUrl ??
+                              'https://picsum.photos/250?image=9', // Fallback image
                           color: AppColors.semiTransparentWhiteColor,
                           height: 70.h,
                         ),
                       ],
                     ),
 
-                    const Spacer(),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 20.h),
-                      decoration: BoxDecoration(
-                        color: AppColors.frostedWhiteColor,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(25),
-                          topRight: Radius.circular(25),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            "More Details:",
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              color: Colors.white,
-                            ),
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 20.h),
+                        decoration: BoxDecoration(
+                          color: AppColors.frostedWhiteColor,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25),
                           ),
-                          SizedBox(height: 20.h),
-                          detailsTile("Today",
-                              "$minimumTemperature/$maximumTemperature"),
-                          detailsTile("Humidity", "$humidity%"),
-                          detailsTile("Wind Speed", "$windSpeed m/s"),
-                        ],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "More Details:",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: 20.h),
+                            detailsTile("Today",
+                                "$minimumTemperature/$maximumTemperature"),
+                            detailsTile("Humidity", "$humidity%"),
+                            detailsTile("Wind Speed", "$windSpeed m/s"),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
         ),
-      ),
-    );
-  }
-
-  Widget detailsTile(String heading, String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            heading,
-            style: const TextStyle(color: Colors.white, fontSize: 18),
-          ),
-          Row(
-            children: [
-              const SizedBox(width: 10),
-              Text(
-                text,
-                style: const TextStyle(color: Colors.white, fontSize: 18),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

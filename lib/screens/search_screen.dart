@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/components/staggered_loading_widget.dart';
 import 'package:weather_app/providers/weather_provider.dart';
 import 'package:weather_app/themes/colors.dart';
@@ -22,6 +23,11 @@ class _SearchScreenState extends State<SearchScreen> {
     final searchWeatherProvider =
         Provider.of<WeatherProvider>(context, listen: false);
     searchWeatherProvider.clearWeatherData();
+  }
+
+  Future<void> _saveSearchedCity(String city) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('lastSearchedCity', city); // Save the searched city
   }
 
   Map<String, dynamic> getWeatherDetails(
@@ -98,6 +104,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   if (value.isNotEmpty) {
                     searchWeatherProvider
                         .fetchWeatherByCity(value); // Fetch weather on submit
+                    _saveSearchedCity(value); // Save the searched city
                   }
                 },
               ),
