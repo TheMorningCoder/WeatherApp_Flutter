@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/components/details_tile.dart';
@@ -79,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
                 icon: Icon(
-                  Icons.add,
+                  Icons.search,
                   color: AppColors.whiteColor,
                   size: 35.sp,
                 ),

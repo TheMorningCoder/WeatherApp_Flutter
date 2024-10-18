@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WeatherApiService {
   WeatherApiService({http.Client? httpClient})
       : _httpClient = httpClient ?? http.Client();
   final http.Client _httpClient;
-
-  final String _geoBaseUrl = 'http://api.openweathermap.org/geo/1.0/direct';
-  final String _weatherBaseUrl =
-      'https://api.openweathermap.org/data/2.5/weather';
-  final String _apiKey = '1d788e2a5b2d5022aa8356e9e6053517'; //
+  final String? _geoBaseUrl = dotenv.env['GEO_API_URL'];
+  final String? _weatherBaseUrl = dotenv.env['WEATHER_API_URL'];
+  final String? _apiKey = dotenv.env['API_KEY'];
 
   // Fetch coordinates based on city name
   Future<Map<String, dynamic>> fetchCoordinates(String city) async {

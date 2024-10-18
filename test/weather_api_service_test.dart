@@ -1,9 +1,10 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:weather_app/services/weather_api_service.dart';
 import 'package:http/http.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MockHttpClient extends Mock implements Client {}
 
@@ -12,16 +13,12 @@ class MockResponse extends Mock implements Response {}
 class FakeUri extends Fake implements Uri {}
 
 void main() {
-  // late WeatherApiService weatherApiService;
-
+  dotenv.testLoad(fileInput: File('.env').readAsStringSync());
   final Client httpClient = MockHttpClient();
   final Response response = MockResponse();
   final WeatherApiService weatherApiService =
       WeatherApiService(httpClient: httpClient);
   setUpAll(() => registerFallbackValue(FakeUri()));
-  // setUp(() {
-  //   weatherApiService = WeatherApiService();
-  // });
 
   group('Weather API Service Tests', () {
     test('fetchCoordinates returns correct data for a valid city', () async {
